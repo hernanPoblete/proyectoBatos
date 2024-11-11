@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<%# Includes a head tag  saved inside components.head.ejs%>
+<%- include("./components/head") %>
+<body>
+    <%# Includes all components specified by the controller %>
+    <% components.forEach(component => { %>
+        <%- include(component) %>
+    <% }); %>
+    
+    <%# Includes a component containing everything that should go at the end of the body %>
+    <%- include("./components/endbody.ejs") %>
+</body>
+</html>
