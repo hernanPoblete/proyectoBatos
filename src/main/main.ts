@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import * as dotenv from 'dotenv';
 import {join} from 'path';
+import {sql} from './controller/db'
 
 
 /**
@@ -36,9 +37,34 @@ app.set('views', join('src', 'main', 'views'));
  */
 app.get("/", (req: Request, res: Response)=>{
     res.status(200).render('index.ejs', {
-        components: ["./components/HelloWorld/content.ejs"]
+        components: ["./components/HelloWorld/content.ejs", "./components/test/graphGrading.ejs"],
+        scripts:[],
     });
 });
+
+
+/**
+ * App gets info necessary to generate a graph
+ */
+app.get("/fetch/:graph", async (req: Request, res: Response)=>{
+
+    /**
+     * Pattern matching for graph to be made
+     */
+    switch (req.params.graph){
+        case "grades":
+            interface Count{
+                puntaje: number,
+                count: number
+            }
+
+            let data: Count[] = await sql<Count[]>`SELECT PUNTAJE, COUNT(PUNTAJE) FROM PREGUNTAPRUEBA WHERE NUMPREGUNTA IN (1,2) GROUP BY PUNTAJE ORDER BY PUNTAJE;`
+            res.json(data.map((x:Count) =>{return {"x":x.puntaje, "y":parseInt(x.count.toString())}}));
+            break;
+        default:
+            res.status(404).json({error: 404, description: "Resquested type of graph not found"})
+    }
+})
 
 
 /**

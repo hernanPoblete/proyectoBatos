@@ -31,14 +31,20 @@ app.set('view engine', require('ejs'));
  */
 app.set('views', join('src', 'main', 'views'));
 
+/**Configures static serving */
+app.use(express.static(join('src','main','public')))
+
+
+
 /**
  * Configures the main request of the app to
  * render and then display the content inside
  * index.ejs
  */
-app.get("/", (req: Request, res: Response)=>{
+app.get("/", async (req: Request, res: Response)=>{
     res.status(200).render('index.ejs', {
-        components: ["./components/HelloWorld/content.ejs"]
+        components: ["./components/HelloWorld/content.ejs", "./components/test/graphGrading.ejs"],
+        scripts:[],
     });
 });
 
@@ -46,20 +52,24 @@ app.get("/", (req: Request, res: Response)=>{
 /**
  * Testing app gets query specified inside query of url and returns it as json
  */
-app.get("/querydb", async (req: Request, res: Response)=>{
+app.get("/fetch/:graph", async (req: Request, res: Response)=>{
 
-    let q = req.query.q;
-    match(q)
-    .with(P.string, async (s)=>{
-        try{
-            let data = await sql.unsafe (`${s}`);
-            res.json(data);
-        }catch (e){
-            res.json({error: e, query: q});
-        }
-        
-    }).otherwise(value=>{throw typeof value});
+    /**
+     * Pattern matching for graph to be made
+     */
+    switch (req.params.graph){
+        case "grades":
+            interface Count{
+                puntaje: number,
+                count: number
+            }
 
+            let data: Count[] = await sql<Count[]>`SELECT PUNTAJE, COUNT(PUNTAJE) FROM PREGUNTAPRUEBA WHERE NUMPREGUNTA IN (1,2) GROUP BY PUNTAJE ORDER BY PUNTAJE;`
+            res.json(data.map((x:Count) =>{return {"x":x.puntaje, "y":parseInt(x.count.toString())}}));
+            break;
+        default:
+            res.status(404).json({error: 404, description: "Resquested type of graph not found"})
+    }
 })
 
 /**
