@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon src/test/main.js",
+    "test": "tsc && nodemon ./src/test/main.js",
     "start": "tsc && node src/main/main.js"
   },
   "keywords": [],
@@ -11,14 +11,15 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "typescript": "^5.6.3",
     "@types/express": "^5.0.0",
-    "@types/node": "^22.7.5"  
+    "@types/node": "^22.7.5",
+    "typescript": "^5.6.3"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.21.1",
-    "postgres": "^3.4.4"
+    "postgres": "^3.4.4",
+    "ts-pattern": "^5.5.0"
   }
 }

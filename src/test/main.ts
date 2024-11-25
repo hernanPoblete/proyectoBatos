@@ -2,6 +2,8 @@ import express, { Request, Response } from 'express';
 import * as dotenv from 'dotenv';
 import {join} from 'path';
 import {sql} from '../main/controller/db'
+import {match, P} from 'ts-pattern'
+import { string } from 'ts-pattern/dist/patterns';
 
 /**
  * Settings for the environment vars. Provides security
@@ -40,6 +42,26 @@ app.get("/", (req: Request, res: Response)=>{
     });
 });
 
+
+/**
+ * Testing app gets query specified inside query of url and returns it as json
+ */
+app.get("/querydb", async (req: Request, res: Response)=>{
+
+    let q = req.query.q;
+    match(q)
+    .with(P.string, async (s)=>{
+        try{
+            let data = await sql.unsafe (`${s}`);
+            res.json(data);
+        }catch (e){
+            res.json({error: e, query: q});
+        }
+        
+    }).otherwise(value=>{throw typeof value});
+
+})
+
 /**
  * configures request for paths 
  * not found within the app
@@ -54,5 +76,5 @@ app.get("*", (req: Request, res: Response)=>{
  * prints a message
  */
 app.listen(port, ()=>{
-    console.log(`App Listening in port ${port}`);
+    console.log(`TESTING App Listening in port ${port}`);
 });
