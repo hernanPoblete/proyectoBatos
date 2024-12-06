@@ -3,6 +3,7 @@
 <%# Includes a head tag  saved inside components.head.ejs%>
 <%- include("./components/head") %>
 <body>
+    <%- include ("./components/topbody.ejs") %>
     <%# Includes all components specified by the controller %>
     <% components.forEach(component => { %>
         <%- include(component) %>
