@@ -3,6 +3,12 @@
 *{
     padding:0;
     margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    height: 100vh;
+    width: 100vw;
 }
 
 .graphContainer{
@@ -35,4 +41,84 @@ header>h1{
     left: 50%;
     translate: -50%;
     font-weight: 400;
+}
+
+
+
+.contents{
+    display: contents;
+}
+
+.mainpanel{
+    display: flex;
+    width: 100vw;
+    padding: 30px;
+    height: max-content;
+
+}
+
+.mainpanel>*{
+    margin: 5px;
+    padding:5px;
+}
+
+.mainpanel>canvas{
+
+    width: 70%;
+    height: max-content;
+}
+
+.mainpanel>.form-wrapper{
+    width: 30%;
+    border-width: 2px;
+    border-color: black;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 10px 20px;
+    padding-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;  
+}
+
+.mainpanel>.form-wrapper>form{
+    display: flex;
+    flex-direction: column;
+    
+}
+
+
+.mainpanel>.form-wrapper>form>*{
+    display: inline-block;
+    position: relative;
+    left: 50%;
+    translate: -50%;
+}
+
+
+.courses-wrapper{
+    display: flex;
+    flex-direction: row;
+}
+.mainpanel>.form-wrapper>form>span.title{
+    margin:10px;
+    width:100%;
+    font-size: 22px;
+    text-align: center;
+}
+
+.range-wrapper{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+.range-wrapper>input{
+    width: 90%;
+}
+
+
+.mainpanel>canvas{
+    max-width: 70%;
+    max-height: 88%;
 }

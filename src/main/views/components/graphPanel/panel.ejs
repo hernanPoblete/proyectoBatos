@@ -1,0 +1,61 @@
+<%#This component handles generation of a panel 
+in main page that includes a graph, and a form controlling the panel%>
+
+
+<div class="contents">
+   <div class="mainpanel">
+        <canvas id="mainGraph"></canvas>
+
+        <div class="form-wrapper">
+
+            <form>
+                <span class = "title">Parámetros</span>
+                <select name="Region" id="regionSelector">
+
+                    <option value="">Usar Todas las Regiones</option>
+                    <%regionData.forEach(r=>{%>
+                        <option value= "<%-r%>" ><%- r %></option>
+                    <%})%>
+                </select>
+                <label for="Region">Seleccionar región</label>
+
+                <div class="range-wrapper">
+                    <input type="range" name="Min" id="minpt" min="0" max="10" onchange="updateIndicators(this)">
+                    <span id="counter-min">0</span>    
+                </div>
+                <label for="Min">Puntaje Mínimo</label> 
+                <br><br>
+                <div class="range-wrapper">
+                    <input type="range" name="Max" id="maxpt" min="0" max="10" onchange="updateIndicators(this)">
+                    <span id="counter-max">0</span>
+                </div>
+                <label for="Max">Puntaje Máximo</label>
+
+                <div class="checkbox-wrapper">                
+                    <input type="checkbox" name="Grupal" onclick="toggleIndicators(this)">
+                    <label for="Grupal" >Usar resultados de prueba grupal</label>
+                </div>
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" name="c1">
+                    <label for="c1">Incluir resultados de nivel 1</label>
+                </div>
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" name="c2">
+                    <label for="c2">Incluir resultados de nivel 2</label>
+                </div>
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" name="c3">
+                    <label for="c3">Incluir resultados de nivel 3</label>
+                </div>
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" name="c4">
+                    <label for="c4">Incluir resultados de nivel 4</label>
+                </div>
+            </form>
+
+            <button onclick="generateGraph()">Generar Gráfico</button>
+
+        </div>
+
+    </div> 
+</div>
